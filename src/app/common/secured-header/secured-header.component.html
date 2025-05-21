@@ -5,9 +5,9 @@
     </div>
 
     <div class="navbar-menu">
-        <a class="nav-link" (click)="navigateTo('/home')">Home</a>
-        <a class="nav-link" (click)="navigateTo('/manageusers')">Users</a>
-        <a class="nav-link" (click)="navigateTo('/regions')">Regions</a>
+        <a class="nav-link" (click)="navigateTo('home')">Home</a>
+        <!-- <a class="nav-link" (click)="navigateTo('/manageusers')">Users</a>
+        <a class="nav-link" (click)="navigateTo('/regions')">Regions</a> -->
 
         <div class="profile-container">
             <button mat-icon-button (click)="toggleProfileMenu()" class="profile-button">
@@ -20,7 +20,7 @@
                     <span>{{ userEmail }}</span>
                 </div>
 
-                <button mat-menu-item (click)="navigateTo('/usersettings')">
+                <button mat-menu-item (click)="navigateTo('usersettings')">
                     <mat-icon>settings</mat-icon>
                     <span>User Settings</span>
                 </button>

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../core/services/user.service';
+import { UserService } from '../../core/services/common/user.service';
 import { Router } from '@angular/router';
 import { AngularMaterialModule } from '../../shared/module/angular-material.module';
 import { CommonModule } from '@angular/common';
+import { NavigationService } from '../../core/services/common/navigation.service';
 
 @Component({
   selector: 'app-secured-header',
@@ -16,7 +17,8 @@ export class SecuredHeaderComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private navigationService: NavigationService
   ) { }
 
   ngOnInit(): void {
@@ -34,7 +36,8 @@ export class SecuredHeaderComponent implements OnInit {
   }
 
   navigateTo(route: string): void {
-    this.router.navigate([route]);
+
+    this.navigationService.navigate([route]);
     this.showProfileMenu = false;
   }
 }

@@ -2,7 +2,10 @@
 @use '@angular/material' as mat;
 
 html {
-    @include mat.theme((color:mat.$azure-palette,
+    @include mat.theme((color:(primary: mat.$azure-palette,
+                tertiary: mat.$blue-palette,
+                theme-type: light,
+            ),
             density: -3,
         ));
 }

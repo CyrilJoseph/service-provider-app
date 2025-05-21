@@ -1,11 +1,9 @@
-//@import 'colors';
-
 .footer {
-   // background-color: $background-header;
+    color: var(--mat-sys-primary);
+    background: var(--mat-sys-primary-container);
     padding: 8px;
-   // border-top: 1px solid $divider-color;
+    border-top: 1px solid var(--mat-sys-outline-variant);
     backdrop-filter: blur(10px);
-   // background-color: rgba($background-header, 0.9);
 
     /* Fixed footer styles */
     position: fixed;
@@ -29,18 +27,18 @@
         gap: 24px;
 
         a {
-           // color: $text-secondary;
+            color: var(--mat-sys-secondary);
             text-decoration: none;
             transition: color 0.3s ease;
 
-            // &:hover {
-            //     color: $primary-color;
-            // }
+            &:hover {
+                color: var(--mat-sys-primary);
+            }
         }
     }
 
     .copyright {
-//color: $text-secondary;
+        color: var(--mat-sys-secondary);
         font-size: 12px;
     }
 }
