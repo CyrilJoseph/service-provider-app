@@ -1,13 +1,37 @@
 <nav class="navbar">
     <div class="navbar-brand">
-        <img src="images/logo-white.png" alt="App Logo" class="logo">
-        <span class="app-title">USCIB Carnet Portal</span>
+        <img *ngIf="logoUrl" [src]="logoUrl" alt="App Logo" class="logo">
+        <!-- <span class="app-title">USCIB Carnet Portal</span> -->
     </div>
 
     <div class="navbar-menu">
-        <a class="nav-link" (click)="navigateTo('home')">Home</a>
-        <!-- <a class="nav-link" (click)="navigateTo('/manageusers')">Users</a>
-        <a class="nav-link" (click)="navigateTo('/regions')">Regions</a> -->
+        <button mat-button (click)="navigateTo('home')">Home</button>
+        <button mat-button [matMenuTriggerFor]="users">Users</button>
+        <mat-menu #users="matMenu">
+            <button mat-menu-item (click)="navigateTo('usersettings')">User Settings</button>
+        </mat-menu>
+        <button mat-button [matMenuTriggerFor]="maintenance">Maintenance</button>
+        <mat-menu #maintenance="matMenu">
+            <button mat-menu-item (click)="navigateTo('preparer')">Preparer</button>
+            <button mat-menu-item (click)="navigateTo('holder')">Holder</button>
+            <button mat-menu-item (click)="navigateTo('carnet')">Carnet</button>
+        </mat-menu>
+        <button mat-button [matMenuTriggerFor]="admin">Admin</button>
+        <mat-menu #admin="matMenu">
+            <button mat-menu-item (click)="navigateTo('sequence')">Sequence</button>
+            <button mat-menu-item (click)="navigateTo('regions')">Regions</button>
+            <button mat-menu-item (click)="navigateTo('users')">Users</button>
+        </mat-menu>
+<!-- 
+        <button mat-icon-button [matMenuTriggerFor]="profile">
+            <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #profile="matMenu">
+            <button mat-menu-item (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                <span>Logout</span>
+            </button>
+        </mat-menu> -->
 
         <div class="profile-container">
             <button mat-icon-button (click)="toggleProfileMenu()" class="profile-button">
@@ -19,11 +43,6 @@
                     <mat-icon>email</mat-icon>
                     <span>{{ userEmail }}</span>
                 </div>
-
-                <button mat-menu-item (click)="navigateTo('usersettings')">
-                    <mat-icon>settings</mat-icon>
-                    <span>User Settings</span>
-                </button>
 
                 <button mat-menu-item (click)="logout()">
                     <mat-icon>logout</mat-icon>

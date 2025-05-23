@@ -31,17 +31,17 @@
         align-items: center;
         gap: 24px;
 
-        .nav-link {
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
+        // .nav-link {
+        //     cursor: pointer;
+        //     padding: 8px 12px;
+        //     border-radius: 4px;
+        //     transition: background-color 0.3s ease;
 
-            &:hover {
-                background-color: var(--mat-sys-secondary-container);
-                box-shadow: var(--mat-sys-level1);
-            }
-        }
+        //     &:hover {
+        //         background-color: var(--mat-sys-secondary-container);
+        //         box-shadow: var(--mat-sys-level1);
+        //     }
+        // }
     }
 
     .profile-container {

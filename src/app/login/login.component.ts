@@ -3,12 +3,11 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AngularMaterialModule } from '../shared/module/angular-material.module';
-import { BasicDetail } from '../core/models/service-provider/basic-detail';
 import { AuthService } from '../core/services/common/auth.service';
 import { NavigationService } from '../core/services/common/navigation.service';
 import { HomeService } from '../core/services/home.service';
 import { UserService } from '../core/services/common/user.service';
-import { BasicDetailService } from '../core/services/service-provider/basic-detail.service';
+import { User } from '../core/models/user';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +26,6 @@ export class LoginComponent {
     private userService: UserService,
     private homeService: HomeService,
     private navigationService: NavigationService,
-    private serviceProviderService: BasicDetailService,
     private router: Router
   ) {
     this.loginForm = this.fb.group({
@@ -74,30 +72,20 @@ export class LoginComponent {
 
   setUserData() {
 
-    // retrieve the appid
-    this.homeService.getCarnetSummaryData().subscribe({
-      next: (data) => {
-        if (data && data?.length > 0) {
-          this.serviceProviderService.getBasicDetailsById(data[0].SPID).subscribe({
-            next: (basicDetail: BasicDetail) => {
-              if (basicDetail?.appid) {
-                this.navigationService.setCurrentAppId(basicDetail.appid);
-                this.navigationService.navigate(['home']);
-              } else {
-                this.errorMessage = "User doesnt have associated application.";
-                this.isLoading = false;
-              }
-            },
-            error: (error: any) => {
-              this.isLoading = false;
-              this.errorMessage = "User doesnt have associated application.";
-              console.error('Error retrieving app data:', error);
-            }
-          });
+    this.userService.setUserDetails().subscribe({
+      next: (data: User) => {
+        if (data?.userDetails) {
+          this.navigationService.setCurrentAppId(data.userDetails.urlKey);
+          this.navigationService.navigate(['home']);
         } else {
-          this.errorMessage = "User doesnt have associated application.";
+          this.errorMessage = "User doesn't have permissions.";
           this.isLoading = false;
         }
+      },
+      error: (error: any) => {
+        this.isLoading = false;
+        this.errorMessage = "User doesn't have permissions.";
+        console.error('Error retrieving app data:', error);
       }
     });
   }
