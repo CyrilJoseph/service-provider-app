@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { StorageService } from './storage.service';
 
 
 @Injectable({
@@ -8,26 +9,32 @@ import { Location } from '@angular/common';
 })
 export class NavigationService {
 
-  private currentAppId: string = '';
+  private readonly USER_APPID_KEY = 'CurrentAppId';
 
-  constructor(private router: Router, private location: Location) { }
+  constructor(private router: Router,
+    private location: Location,
+    private storageService: StorageService) { }
 
   setCurrentAppId(appId: string): void {
-    this.currentAppId = appId;
+    this.storageService.setItem(this.USER_APPID_KEY, appId);
   }
 
   getCurrentAppId(): string {
-    return this.currentAppId;
+    return this.storageService.getItem(this.USER_APPID_KEY) ?? '';
   }
 
   navigate(commands: any[], extras?: any): void {
+    const currentAppId = this.getCurrentAppId();
+
     // Prepend appId to all navigations
-    this.router.navigate([this.currentAppId, ...commands], extras);
+    this.router.navigate([currentAppId, ...commands], extras);
   }
 
   navigateByUrl(url: string, extras?: any): void {
+    const currentAppId = this.getCurrentAppId();
+
     // Ensure URL starts with current appId
-    const fullUrl = `/${this.currentAppId}${url.startsWith('/') ? url : `/${url}`}`;
+    const fullUrl = `/${currentAppId}${url.startsWith('/') ? url : `/${url}`}`;
     this.router.navigateByUrl(fullUrl, extras);
   }
 

@@ -8,6 +8,7 @@ import { NavigationService } from '../core/services/common/navigation.service';
 import { HomeService } from '../core/services/home.service';
 import { UserService } from '../core/services/common/user.service';
 import { User } from '../core/models/user';
+import { ThemeService } from '../core/services/theme.service';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,8 @@ export class LoginComponent {
     private userService: UserService,
     private homeService: HomeService,
     private navigationService: NavigationService,
-    private router: Router
+    private router: Router,
+    private themeService: ThemeService
   ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -42,6 +44,8 @@ export class LoginComponent {
       } else {
         this.navigationService.navigate(['home']);
       }
+    } else {
+      this.themeService.setTheme('default');
     }
   }
 
