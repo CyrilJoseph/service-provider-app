@@ -7,7 +7,7 @@
 
             <form [formGroup]="basicDetailsForm" class="details-form" *ngIf="!isLoading"
                 (ngSubmit)="saveBasicDetails()">
-                <!-- Company Information -->
+                <!-- Client Information -->
                 <div class="form-row">
                     <mat-form-field appearance="outline" class="name">
                         <mat-label>Name</mat-label>
@@ -69,19 +69,44 @@
                         </mat-error>
                     </mat-form-field>
 
+                    <mat-form-field appearance="outline" class="country">
+                        <mat-label>Country</mat-label>
+                        <mat-select formControlName="country" required
+                            (selectionChange)="onCountryChange($event.value)">
+                            <mat-option *ngFor="let country of countries" [value]="country.value">
+                                {{ country.name }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="f['country'].errors?.['required']">
+                            Country is required
+                        </mat-error>
+                    </mat-form-field>
+
                     <mat-form-field appearance="outline" class="state">
-                        <mat-label>State</mat-label>
-                        <input matInput formControlName="state" required>
+                        <mat-label>State/Province</mat-label>
+                        <mat-select formControlName="state" required>
+                            <mat-option *ngFor="let state of states" [value]="state.value">
+                                {{ state.name }}
+                            </mat-option>
+                        </mat-select>
                         <mat-error *ngIf="f['state'].errors?.['required']">
                             State is required
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field appearance="outline" class="country">
-                        <mat-label>Country</mat-label>
-                        <input matInput formControlName="country" required>
-                        <mat-error *ngIf="f['country'].errors?.['required']">
-                            Country is required
+                    <mat-form-field appearance="outline" class="zip">
+                        <mat-label>ZIP/Postal Code</mat-label>
+                        <input matInput formControlName="zip" required>
+                        <mat-error *ngIf="f['zip'].errors?.['required']">
+                            ZIP/Postal code is required
+                        </mat-error>
+                        <mat-error
+                            *ngIf="f['country']?.value === 'US' && f['zip']?.touched && f['zip']?.errors?.['invalidUSZip']">
+                            Please enter a valid 5-digit US ZIP code
+                        </mat-error>
+                        <mat-error
+                            *ngIf="f['country']?.value === 'CA' && f['zip']?.touched && f['zip']?.errors?.['invalidCanadaPostal']">
+                            Please enter a valid postal code (e.g., A1B2C3)
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -102,7 +127,11 @@
 
                     <mat-form-field appearance="outline" class="revenue-location">
                         <mat-label>Revenue Location</mat-label>
-                        <input matInput formControlName="revenueLocation" required>
+                        <mat-select formControlName="revenueLocation" required>
+                            <mat-option *ngFor="let state of states" [value]="state.value">
+                                {{ state.name }}
+                            </mat-option>
+                        </mat-select>
                         <mat-error *ngIf="f['revenueLocation'].errors?.['required']">
                             Revenue location is required
                         </mat-error>

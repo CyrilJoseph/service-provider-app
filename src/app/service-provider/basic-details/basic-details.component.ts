@@ -281,7 +281,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       error: (error) => {
         let errorMessage = this.errorHandler.handleApiError(error, `Failed to ${this.isEditMode ? 'update' : 'add'} basic details`);
         this.notificationService.showError(errorMessage);
-        console.error('Error saving contact:', error);
+        console.error('Error saving basic details:', error);
       }
     });
   }

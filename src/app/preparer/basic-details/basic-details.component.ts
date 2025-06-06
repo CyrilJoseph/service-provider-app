@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, zip } from 'rxjs';
 import { AngularMaterialModule } from '../../shared/module/angular-material.module';
 import { CommonModule } from '@angular/common';
 import { Country } from '../../core/models/country';
@@ -11,6 +11,7 @@ import { NotificationService } from '../../core/services/common/notification.ser
 import { ApiErrorHandlerService } from '../../core/services/common/api-error-handler.service';
 import { BasicDetailService } from '../../core/services/preparer/basic-detail.service';
 import { BasicDetail } from '../../core/models/preparer/basic-detail';
+import { ZipCodeValidator } from '../../shared/validators/zipcode-validator';
 
 @Component({
   selector: 'app-basic-details',
@@ -50,7 +51,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     if (this.clientid > 0) {
       this.basicDetailService.getBasicDetailsById(this.clientid).subscribe({
         next: (basicDetail: BasicDetail) => {
-          if (basicDetail?.id > 0) {
+          if (basicDetail?.clientid > 0) {
             this.patchFormData(basicDetail);
             this.clientName.emit(basicDetail.name);
           }
@@ -80,6 +81,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       city: ['', Validators.required, Validators.maxLength(50)],
       state: ['', Validators.required],
       country: ['', Validators.required],
+      zip: ['', [Validators.required, ZipCodeValidator('country')]],
       carnetIssuingRegion: ['', Validators.required],
       revenueLocation: ['', Validators.required]
     });
@@ -149,6 +151,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       city: data.city,
       country: data.country,
       state: data.state,
+      zip: data.zip,
       carnetIssuingRegion: data.carnetIssuingRegion,
       revenueLocation: data.revenueLocation
     });
@@ -168,6 +171,8 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     if (country) {
       this.loadStates(country);
     }
+
+    this.basicDetailsForm.get('zip')?.updateValueAndValidity();
   }
 
   saveBasicDetails(): void {
@@ -201,7 +206,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       error: (error: any) => {
         let errorMessage = this.errorHandler.handleApiError(error, `Failed to ${this.isEditMode ? 'update' : 'add'} basic details`);
         this.notificationService.showError(errorMessage);
-        console.error('Error saving contact:', error);
+        console.error('Error saving basic details:', error);
       }
     });
   }

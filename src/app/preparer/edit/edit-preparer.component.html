@@ -1,1 +1,30 @@
-<p>edit-preparer works!</p>
+<h2 *ngIf="this.clientName" class="page-header">Manage {{this.clientName}}</h2>
+
+<div class="preparer-action-buttons">
+    <button mat-button (click)="accordion().openAll()">Expand All</button>
+    <button mat-button (click)="accordion().closeAll()">Collapse All</button>
+</div>
+<mat-accordion class="preparer-headers-align" multi>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title> Basic Details </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <app-basic-details [clientid]="clientid" [isEditMode]="isEditMode"
+            (clientName)="onClientNameUpdate($event)"></app-basic-details>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title> Contacts </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-contacts [clientid]="clientid" [userPreferences]="userPreferences"></app-contacts>
+    </mat-expansion-panel>
+<!-- 
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title> Locations </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-location [clientid]="clientid" [isEditMode]="isEditMode"
+            [userPreferences]="userPreferences"></app-location>
+    </mat-expansion-panel> -->
+</mat-accordion>

@@ -12,6 +12,8 @@ export class UserService {
   private apiUrl = environment.apiUrl;
   private apiDb = environment.apiDb;
 
+  private spid: number = 0;
+
   userDetailsSignal = signal<User>({});
 
   private readonly USER_EMAIL_KEY = 'CurrentUserEmail';
@@ -79,6 +81,15 @@ export class UserService {
     return this.getUser() || '';
   }
 
+  getUserSpid(): number {
+    if (this.spid === 0) {
+      const userDetails = this.getUserDetails();
+      if (userDetails && userDetails.userDetails && userDetails.userDetails.spid) {
+        this.spid = userDetails.userDetails.spid;
+      }
+    }
+    return this.spid;
+  }
   private mapToUser(data: any): User {
     return {
       roles: data.roleDetails || null,

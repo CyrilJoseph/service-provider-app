@@ -1,5 +1,6 @@
 export interface BasicDetail {
-    id: number;
+    clientid: number;
+    spid: number
     name: string;
     lookupCode: string;
     address1: string;
@@ -7,6 +8,7 @@ export interface BasicDetail {
     city: string;
     state: string;
     country: string;
+    zip: string;
     carnetIssuingRegion: string;
     revenueLocation: string;
 }

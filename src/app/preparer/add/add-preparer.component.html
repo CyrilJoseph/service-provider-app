@@ -1,1 +1,32 @@
-<p>add-preparer works!</p>
+<div class="preparer-container">
+    <mat-stepper orientation="vertical" [linear]="true" (selectionChange)="onStepChange($event)"
+        [selectedIndex]="currentStep">
+
+        <!-- Basic Details Step -->
+        <mat-step [completed]="basicDetailsCompleted">
+            <ng-template matStepLabel>Basic Details</ng-template>
+
+            <app-basic-details [isEditMode]="isEditMode" (clientidCreated)="onBasicDetailsSaved($event)">
+            </app-basic-details>
+        </mat-step>
+
+        <!-- Contacts Step -->
+        <mat-step [completed]="contactsCompleted" [editable]="!!clientid && basicDetailsCompleted">
+            <ng-template matStepLabel>Contacts</ng-template>
+
+            <app-contacts *ngIf="clientid" [clientid]="clientid" (hasContacts)="onContactsSaved($event)"
+                [userPreferences]="userPreferences">
+            </app-contacts>
+        </mat-step>
+
+        <!-- Location Step -->
+        <!-- <mat-step [completed]="locationCompleted" [editable]="!!clientid && contactsCompleted">
+            <ng-template matStepLabel>Locations</ng-template>
+
+            <app-location *ngIf="clientid" [clientid]="clientid" (hasLocation)="onLocationSaved($event)"
+                [userPreferences]="userPreferences">
+            </app-location>
+        </mat-step> -->
+
+    </mat-stepper>
+</div>

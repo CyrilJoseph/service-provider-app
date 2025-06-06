@@ -51,7 +51,8 @@
 
             .city,
             .state,
-            .country {
+            .country,
+            .zip {
                 grid-column: span 1;
             }
 
@@ -85,6 +86,7 @@
                 .address2,
                 .city,
                 .state,
+                .zip,
                 .country,
                 .carnet-issuing-region,
                 .revenue-location {
